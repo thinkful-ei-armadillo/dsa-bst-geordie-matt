@@ -9,7 +9,7 @@ function main() {
   const BST3 = new BST();
 
   const data = [3,1,4,6,9,2,5,7];
-  const balance = [3,1,4,2,0,6,7,8]
+  const balance = [3,1,4,2,0,6,7,8];
   const letters = ['E', 'A', 'S', 'Y', 'Q', 'U', 'E', 'S', 'T', 'I', 'O', 'N'];
 
   for(let i = 0; i< data.length ; i++){
@@ -20,7 +20,7 @@ function main() {
   }
 
   for(let i =0; i < balance.length ; i++) {
-    BST3.insert(balance[i],balance[i])
+    BST3.insert(balance[i],balance[i]);
   }
 
   // console.log(BST1)
@@ -28,7 +28,11 @@ function main() {
   // console.log(treeHeight(BST1));
   // console.log(isItBST(BST1));
   // console.log(thirdLargest(BST1));
-  console.log(balanceBST(BST3))
+  console.log(balanceBST(BST3));
+
+  const arrA = [3, 4, 1, 2, 6, 0, 7, 5, 9];
+  const arrB = [7, 2, 5, 1, 0, 6, 3, 4, 8];
+  // console.log(sameBST(arrA, arrB));
 }
 
 main();
@@ -71,6 +75,22 @@ function treeHeight(t){
   }
 }
 
+// minimum height function
+function minHeight(t){
+  if(t.right === null && t.left === null) {
+    return 1;
+  }
+  if(t.right !== null && t.left !== null) {
+    return Math.min(minHeight(t.right), minHeight(t.left)) + 1;
+  }
+  if(t.right !== null && t.left === null) {
+    return 1 + minHeight(t.right);
+  }
+  if(t.left !== null && t.right === null) {
+    return 1+ minHeight(t.left);
+  }
+}
+
 function isItBST(t){
   if(t.right === null && t.left === null) {
     return true;
@@ -96,37 +116,53 @@ function sortArray(arr){
 
 function thirdLargest(t, num = []) {
   
-    if(!t.left && !t.right){
-      num.push(t.value)
-      const sorted = sortArray(num)
-      return sorted[2] ? sorted[2] : 'The tree has less than 3 nodes.'
-    }
-    if(t.left !== null && t.right === null) {
-      num.push(t.value)
-      return thirdLargest(t.left,num);
-    }
-    if(t.right !== null && t.left === null) {
-      num.push(t.value)
-      return thirdLargest(t.right,num);
-    }
-    if(t.right !== null && t.left !== null) {
-      num.push(t.value)
-      return thirdLargest(t.right,num)
-    }
+  if(!t.left && !t.right){
+    num.push(t.value);
+    const sorted = sortArray(num);
+    return sorted[2] ? sorted[2] : 'The tree has less than 3 nodes.';
+  }
+  if(t.left !== null && t.right === null) {
+    num.push(t.value);
+    return thirdLargest(t.left,num);
+  }
+  if(t.right !== null && t.left === null) {
+    num.push(t.value);
+    return thirdLargest(t.right,num);
+  }
+  if(t.right !== null && t.left !== null) {
+    num.push(t.value);
+    return thirdLargest(t.right,num);
+  }
   
 }
 
 function balanceBST(t) {
-  let rightSide = treeHeight(t.right)
-  let leftSide = treeHeight(t.left)
+  let rightSide = treeHeight(t.right);
+  let leftSide = treeHeight(t.left);
+  let rightMin = minHeight(t.right);
+  let leftMin = minHeight(t.left);
 
   if(rightSide === leftSide) {
     return true;
   }
-  else if(Math.abs(rightSide - leftSide) === 1) {
+  else if(Math.abs(rightSide - leftMin) === 1) {
     return true;
   }
   else{
     return false;
   }
+}
+
+function sameBST(arr1, arr2) {
+  arr1.sort();
+  arr2.sort();
+  if(arr1.length !== arr2.length) {
+    return false;
+  }
+  for(let i = 0; i < arr1.length; i++) {
+    if(arr1[i] !== arr2[i]){
+      return false;
+    }
+  }
+  return true;
 }
