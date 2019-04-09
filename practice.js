@@ -19,7 +19,8 @@ function main() {
   // console.log(BST1)
   // console.log(BST2)
   // console.log(treeHeight(BST1));
-  console.log(isItBST(BST1));
+  // console.log(isItBST(BST1));
+  console.log(thirdLargest(BST1));
 }
 
 main();
@@ -79,4 +80,29 @@ function isItBST(t){
       return false;
     }
   }
+}
+
+function sortArray(arr){
+  return arr.sort((a,b) => b-a)[2];
+}
+
+function thirdLargest(t, num = []) {
+  
+    if(!t.left && !t.right){
+      num.push(t.value)
+      return sortArray(num)
+    }
+    if(t.left !== null && t.right === null) {
+      num.push(t.value)
+      return thirdLargest(t.left,num);
+    }
+    if(t.right !== null && t.left === null) {
+      num.push(t.value)
+      return thirdLargest(t.right,num);
+    }
+    if(t.right !== null && t.left !== null) {
+      num.push(t.value)
+      return thirdLargest(t.right,num)
+    }
+  
 }
