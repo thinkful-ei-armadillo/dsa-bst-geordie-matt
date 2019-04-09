@@ -6,7 +6,10 @@ const BST = require('./BST');
 function main() {
   const BST1 = new BST();
   const BST2 = new BST();
+  const BST3 = new BST();
+
   const data = [3,1,4,6,9,2,5,7];
+  const balance = [3,1,4,2,0,6,7,8]
   const letters = ['E', 'A', 'S', 'Y', 'Q', 'U', 'E', 'S', 'T', 'I', 'O', 'N'];
 
   for(let i = 0; i< data.length ; i++){
@@ -16,11 +19,16 @@ function main() {
     BST2.insert(letters[i],letters[i]);
   }
 
+  for(let i =0; i < balance.length ; i++) {
+    BST3.insert(balance[i],balance[i])
+  }
+
   // console.log(BST1)
   // console.log(BST2)
   // console.log(treeHeight(BST1));
   // console.log(isItBST(BST1));
-  console.log(thirdLargest(BST1));
+  // console.log(thirdLargest(BST1));
+  console.log(balanceBST(BST3))
 }
 
 main();
@@ -44,14 +52,14 @@ function tree(t){
 
 // height function
 function treeHeight(t){
-  console.log('working with ' + t.value);
-  console.log('right is ' + t.right);
-  console.log('left is ' + t.left);
+  // console.log('working with ' + t.value);
+  // console.log('right is ' + t.right);
+  // console.log('left is ' + t.left);
   if(t.right === null && t.left === null) {
-    console.log('at the bottom');
+    // console.log('at the bottom');
     return 1;
   }
-  console.log('moving down a level');
+  // console.log('moving down a level');
   if(t.right !== null && t.left !== null) {
     return Math.max(treeHeight(t.right), treeHeight(t.left)) + 1;
   }
@@ -106,4 +114,19 @@ function thirdLargest(t, num = []) {
       return thirdLargest(t.right,num)
     }
   
+}
+
+function balanceBST(t) {
+  let rightSide = treeHeight(t.right)
+  let leftSide = treeHeight(t.left)
+
+  if(rightSide === leftSide) {
+    return true;
+  }
+  else if(Math.abs(rightSide - leftSide) === 1) {
+    return true;
+  }
+  else{
+    return false;
+  }
 }
