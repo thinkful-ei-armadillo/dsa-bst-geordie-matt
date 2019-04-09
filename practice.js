@@ -83,14 +83,15 @@ function isItBST(t){
 }
 
 function sortArray(arr){
-  return arr.sort((a,b) => b-a)[2];
+  return arr.sort((a,b) => b-a);
 }
 
 function thirdLargest(t, num = []) {
   
     if(!t.left && !t.right){
       num.push(t.value)
-      return sortArray(num)
+      const sorted = sortArray(num)
+      return sorted[2] ? sorted[2] : 'The tree has less than 3 nodes.'
     }
     if(t.left !== null && t.right === null) {
       num.push(t.value)
